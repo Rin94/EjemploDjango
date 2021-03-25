@@ -1,0 +1,46 @@
+{% extends 'home/base2.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <section class="page-section portfolio" id="dashboard">
+        <div class="container">
+            <br/><br/>
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">
+                Bienvenido, {{ user.username|default:'Guest' }}!</h2>
+
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Portfolio Section Heading-->
+            <br/>
+
+            <!-- Icon Divider-->
+            <!-- Portfolio Grid Items-->
+            <br/>
+            <h2 class="mb-5">Acciones</h2>&nbsp;
+            <div class="row justify-content-center">
+
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a class="btn btn-info btn-block" href="{% url 'cal:calendar' %}">Calendario <i
+                            class="fas fa-calendar-alt fa-w-20 fa-9x"></i></a>
+
+                </div>
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a class="btn  btn-info btn-block" href="{% url 'cliente:clientes' %}">Clientes <i
+                            class="fas fa-users fa-w-20 fa-9x"></i></a>
+
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}

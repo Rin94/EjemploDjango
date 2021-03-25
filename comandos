@@ -1,0 +1,7 @@
+#django-admin startproject slg
+#python manage.py startapp home
+export PYTHONIOENCODING="UTF-8"; python manage.py createsuperuser
+
+Se necesita hacer una carpeta en desktop llamada preferencias donde se almacene la info del email, constraseña, y otras cosas
+en archivos.
+

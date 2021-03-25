@@ -1,0 +1,129 @@
+{% extends 'home/base2.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+    Citas
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $("").text("some value");
+            if ($('#asesoria').text("True")) {
+                $('#asesoria').text("Si");
+            } else {
+                $('#asesoria').text("No");
+
+            }
+
+        });
+        $('#exampleModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
+    </script>
+
+
+{% endblock %}
+{% block content %}
+    <header class="masthead bg-primary text-white text-center">
+        <div class="container d-flex align-items-center flex-column">
+            <!-- Masthead Heading-->
+            <p class="masthead-heading text-uppercase mb-0">Citas</p>
+
+
+        </div>
+    </header>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form method="get">
+                        {{ myFilter.form | crispy }}
+                        <button class="btn btn-success" type="submit">Buscar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container">
+        <section class="page-section" id="citas">
+
+            <div class="container-fluid">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Buscar
+                    Citas
+                </button>
+                <a class="btn btn-info" href="{% url 'cal:agendas' %}"> Refrescar </a>
+                <a class="btn btn-info left" href="{% url 'cal:calendar' %}"> Calendario </a>
+
+                <table class="table table-bordered ">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">titulo</th>
+                        <th scope="col">Consultor</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Servicio</th>
+                        <th scope="col">Asesoria nueva</th>
+                        <th scope="col">Inicio</th>
+                        <th scope="col">Fin</th>
+                        <th scope="col">Notas</th>
+                        <th scope="col">Modificar</th>
+                        <th scope="col">Elminar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in eventos %}
+                        <tr>
+                            <th scope="row">{{ i.id }}</th>
+                            <td>{{ i.title }}</td>
+                            <td>{{ i.usuario }}</td>
+                            <td>{{ i.cliente }}</td>
+                            <td>{{ i.servicio }}</td>
+                            <td id="asesoria">{{ i.asesoriaNueva }}</td>
+                            <td>{{ i.start_time }}</td>
+                            <td>{{ i.start_time }}</td>
+                            <td>{{ i.notas }}</td>
+                            <td><a href="#{{ i.id }}" class="btn btn-secondary" type="button">Modificar</a></td>
+                            <td><a href="#{{ i.id }}" class="btn btn-danger" type="button">Eliminar</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+        </section>
+        <!-- Button trigger modal -->
+        <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+        </div>
+
+
+        <!-- Modal -->
+
+    </div>
+
+
+
+{% endblock %}

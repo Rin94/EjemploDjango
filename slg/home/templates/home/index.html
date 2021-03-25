@@ -1,0 +1,182 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+
+<!-- Heading -->
+{% load static %}
+<title>  {% block title %}SLG{% endblock %}</title>
+
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $('.text_type_number').attr('type', 'number');
+
+            $('#txtPhone').focusout(function () {
+                if ($('#txtPhone').val() < 1000000000 || $(this).val() > 9999999999) {
+                    alert("El teléfono tiene que tener 10 digitos");
+                    $(this).val('');
+                }
+            });
+
+
+        });</script>
+
+
+{% endblock %}
+
+{% block content %}
+    <header class="masthead bg-primary text-black text-center" style=" background-image:
+            url({% static 'assets/img/consultoria.jpg' %});
+            background-size: cover; background-repeat:   no-repeat;
+            background-position: center center;
+
+            ">
+        <div class="container d-flex align-items-center flex-column">
+            <!-- Masthead Avatar Image-->
+            <img class="masthead-avatar mb-5 rounded" src="{% static 'assets/img/SLG.JPG' %}"
+                 style="width: 20%; opacity: 0.8" alt=""/>
+            <!-- Masthead Heading-->
+            <h1 class="masthead-heading text-uppercase mb-0">SLG Consultorias </h1>
+            <br/>
+            <!-- Masthead Subheading-->
+            <p class="masthead-subheading font-weight-light mb-0">
+            <h2>Máximiza tu pension IMSS - PYMES - Créditos Infonavit</h2></p>
+        </div>
+    </header>
+    {% if notificacion == True %}
+        <div id="mensaje" class="row">
+            <div class="col text-right">
+                <div class="alert-info">
+                    <h2 class="mb-5">Su mensaje ha sido enviado!!!</h2>&nbsp;
+                </div>
+            </div>
+
+        </div>
+    {% endif %}
+
+    <!-- Portfolio Section-->
+    <section class="page-section portfolio" id="portfolio">
+        <div class="container">
+            <!-- Portfolio Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Nuestros Servicios</h2>
+            <!-- Icon Divider-->
+            <!-- Portfolio Grid Items-->
+            <br/>
+            <div class="row justify-content-center">
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal1">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i
+                                    class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{% static 'assets/img/portfolio/imss.svg' %}" style="" alt=""/>
+                    </div>
+                </div>
+                <!-- Portfolio Item 2-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal2">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i
+                                    class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{% static 'assets/img/portfolio/pyme.png' %}" alt=""/>
+                    </div>
+                </div>
+                <!-- Portfolio Item 3-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal3">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i
+                                    class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{% static 'assets/img/portfolio/infonavit.png' %}" alt=""/>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- About Section-->
+    <section class="page-section bg-primary text-white mb-0" id="about">
+        <div class="container">
+            <!-- About Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-white">Acerca de nosotros</h2>
+            <!-- Icon Divider-->
+            <!-- About Section Content-->
+            <div class="row">
+                <div class="col-lg-4 ml-auto"><p class="lead"> SLG es una empresa consultora de Aguascalientes
+                     la cual busca brindar atención con respecto a tus necesidades.</p>
+                </div>
+                <div class="col-lg-4 mr-auto"><p class="lead">Nos especializamos en ayudar a los trabajadores del IMSS a
+                    percibir el mejor porcentaje de su jubiliación, únete al grupo de clientes felices!</p></div>
+            </div>
+            <!-- About Section Button-->
+            <div class="text-center mt-4">
+                <a class="btn btn-xl btn-outline-light" href="https://api.whatsapp.com/send?phone=">
+                    <i class="fab fa-whatsapp mr-2"></i>
+                    Llamanos
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section-->
+    <section class="page-section" id="contact">
+        <div class="container">
+            <!-- Contact Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Contactanos</h2>
+            <!-- Icon Divider-->
+            <!-- Contact Section Form-->
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <!-- novalidate="novalidate" To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.-->
+                    <form id="contactForm" action="{% url "index" %}" method="POST" name="sentMessage">{% csrf_token %}
+                        {% for field in miFormulario %}
+                            <div class="control-group">
+                                <div class="form-group" style="font-size: medium">
+                                    {% if field.name == "servicios" %}
+                                        <div class="custom-checkbox">
+                                            {{ field |as_crispy_field }}
+                                        </div>
+                                    {% elif field.name == 'lugarNacimiento' %}
+                                        {{ field |as_crispy_field }}
+                                    {% else %}
+                                        <div class="control-group">
+                                            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                                {{ field | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-xl" id="sendMessageButton" type="submit">Enviar</button>
+                        </div>
+                    </form>
+
+
+                </div>
+
+
+            </div>
+        </div>
+        <div class="p-4">
+
+        </div>
+    </section>
+
+    <section class="page-section bg-primary text-white mb-0" id="lieu">
+        <div class="container">
+            <!-- About Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-white">Ubicanos</h2>
+            <!-- About Section Button-->
+            <div class="text-center mt-4">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d706.8794855731787!2d-102.58974014871993!3d22.7443167371209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x1d17e6d9a84e904c!2sFarmacias%20Similares!5e0!3m2!1ses!2smx!4v1610918643230!5m2!1ses!2smx"
+                        width="500" height="450" frameborder="0" style="border:1em;" allowfullscreen=""
+                        aria-hidden="false" tabindex="0"></iframe>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

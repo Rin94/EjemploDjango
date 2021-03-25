@@ -1,0 +1,153 @@
+{% extends 'home/base2.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+    Citas
+{% endblock %}
+{% block javascript %}
+    <script>
+
+        function modificarSemana(mon, tue, wed, thu, fri, sat, sun) {
+            mon.text("Lun")
+            tue.text("Mar")
+            wed.text("Mie")
+            thu.text("Jue")
+            fri.text("Vie")
+            sat.text("sab")
+            sun.text("Dom")
+
+
+        }
+
+        function modificarMes(str, year) {
+            if (str === "February ") {
+                str = "Febrero"
+                $('.month').text(str + " " + year)
+            } else if (str === "January ") {
+                str = "Enero"
+                $('.month').text(str + " " + year)
+            }
+            else if (str === "January ") {
+                str = "Enero"
+                $('.month').text(str + " " + year)
+            }
+            else if (str === "March ") {
+                str = "Marzo"
+                $('.month').text(str + " " + year)
+            }
+            else if (str === "April ") {
+                str = "Abril"
+                $('.month').text(str + " " + year)
+            }
+            else if (str === "May ") {
+                str = "Mayo"
+                $('.month').text(str + " " + year)
+            }
+            else if (str === "June ") {
+                str = "Junio"
+                $('.month').text(str + " " + year)
+            }
+            else if (str === "July ") {
+                str = "Julio"
+                $('.month').text(str + " " + year)
+            }
+            else if (str === "August ") {
+                str = "Agosto"
+                $('.month').text(str + " " + year)
+            }
+            else if (str === "September ") {
+                str = "Septiembre"
+                $('.month').text(str + " " + year)
+            }
+            else if (str === "October ") {
+                str = "Octubre"
+                $('.month').text(str + " " + year)
+            }
+            else if (str === "November ") {
+                str = "Noviembre"
+                $('.month').text(str + " " + year)
+            }
+            else if (str === "December ") {
+                str = "Diciembre"
+                $('.month').text(str + " " + year)
+            }
+        }
+    </script>
+    <script>
+        var d = new Date()
+        var x = document.getElementById("ultimo");
+        x.style.display = "none"
+        var getDaysInMonth = function (month, year) {
+            return new Date(year, month + 1, 0).getDate();
+        };
+        var dias = getDaysInMonth(d.getMonth(), d.getFullYear())
+        if (dias == d.getDate()) {
+            alert("Es el último día del mes")
+            x.style.display = "block";
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            var year = $('.month').text().replace(/[^0-9]/g, '')
+            var str = $('.month').text().replace(/[0-9]/g, '');
+            modificarMes(str, year)
+            modificarSemana($('.mon'), $('.tue'), $('.wed'), $('.thu'), $('.fri'), $('.sat'), $('.sun'))
+        });</script>
+
+
+{% endblock %}
+{% block content %}
+
+    <header class="masthead bg-primary text-white text-center">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Citas</h2>
+
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+    </header>
+    <div class="container" style="align-self: flex-end">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-info" role="alert" id="ultimo">
+                    <p>Es el último día del mes <a class="btn btn-warning right" href="{% url 'cal:event_new' %}">
+                        Generar Reporte Mensual </a>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <section class="page-section" id="citas">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="clearfix">
+                            <a class="btn btn-info left" href="{% url 'cal:calendar' %}?{{ prev_month }}"> Mes
+                                previo </a>
+                            <a class="btn btn-info right" href="{% url 'cal:calendar' %}?{{ next_month }}"> Siguiente
+                                mes </a>
+                            <a class="btn btn-primary right" href="{% url 'cal:event_new' %}"> Nueva cita </a>
+                            <a class="btn btn-warning right" href="{% url 'cal:event_block' %}">Bloquear día </a>
+                            <a class="btn btn-success left" href="{% url 'cal:agendas' %}"> Buscar en Agenda </a>
+                        </div>
+
+                        {{ calendar }}
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+
+
+
+
+{% endblock %}
